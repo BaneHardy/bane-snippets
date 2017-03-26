@@ -18,7 +18,7 @@ def unlink(filename):
         parent_stat = os.stat(parent)
         if os.path.isdir(filename):
             os.rmdir(filename)
-        if os.path.isfile(filename):
+        if os.path.isfile(filename) or os.path.islink(filename):
             os.unlink(filename)
         os.utime(parent, (parent_stat.st_atime, parent_stat.st_mtime))
     except:
