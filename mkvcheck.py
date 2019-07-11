@@ -19,7 +19,7 @@ def get_expected(mkv):
         output = subprocess.check_output([mkvinfo, '-z', mkv])
     except:
         return [0, 0]
-    pattern = re.compile('^\+ .* size (\d+)$')
+    pattern = re.compile('^\+ .* size (\d+) data size.*$')
     size = 0
     for line in output.split('\n'):
         match = pattern.search(line.strip())
