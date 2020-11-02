@@ -20,10 +20,14 @@ def get_expected(mkv):
         output = subprocess.check_output([mkvinfo, '-z', mkv])
     except subprocess.CalledProcessError:
         return [0, 0]
-    pattern = re.compile(r'^\+ .* size (\d+)( data size \d+)?$')
+    pattern = re.compile(r'^\+ .* size (\d+)$')
     size = 0
     for line in output.decode().split('\n'):
-        match = pattern.search(line.strip())
+        line = line.strip()
+        # for mkvtoolnix >= v32.0.0: remove data size
+        if ' data size' in line:
+            line = line[:line.find(' data size')]
+        match = pattern.search(line)
         if match:
             size += int(match.group(1))
     return [size, size/1024/1024]
